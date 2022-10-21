@@ -23,13 +23,13 @@ function userCreatedDate() {
     return function (target, propertyKey, descriptor) {
         let d = new Date();
         let dt = d.getDate() +
-            " " +
-            d.toLocaleString("en-US", { month: "long" }) +
-            " " +
+            ' ' +
+            d.toLocaleString('en-US', { month: 'long' }) +
+            ' ' +
             d.getFullYear() +
-            " Time: " +
+            ' Time: ' +
             d.getHours() +
-            ":" +
+            ':' +
             d.getMinutes();
         dat = dt.toString();
     };
@@ -37,7 +37,7 @@ function userCreatedDate() {
 let env;
 (function () {
     return __awaiter(this, void 0, void 0, function* () {
-        let fetchData = yield fetch("./env.json");
+        let fetchData = yield fetch('./env.json');
         env = yield fetchData.json();
     });
 })();
@@ -51,6 +51,7 @@ class User {
         this.UsersData = UsersData;
     }
     addUser(arr) {
+        console.log(arr);
         let newUser = [];
         for (let i = 0; i < arr.target.length - 1; i++) {
             newUser.push(arr.target[i].value);
@@ -69,21 +70,21 @@ class User {
         };
         // console.log(JSON.stringify(data));
         fetch(env.API_URL, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(data),
             headers: {
-                "Content-type": "application/json; charset=UTF-8",
+                'Content-type': 'application/json; charset=UTF-8',
             },
         }).then((response) => {
             return response.json();
         });
         UsersData.push(newUser);
-        let placeholder = document.querySelector("#data-output");
-        var out = "";
-        let r = document.getElementById("table");
+        let placeholder = document.querySelector('#data-output');
+        var out = '';
+        let r = document.getElementById('table');
         // let i=r.rows[r.rows.length-1];
-        let t = r.getElementsByTagName("TR");
-        let id = t[t.length - 1].getAttribute("id");
+        let t = r.getElementsByTagName('TR');
+        let id = t[t.length - 1].getAttribute('id');
         // console.log(i);
         id++;
         out = `<tr id="${id}">
@@ -103,35 +104,36 @@ class User {
         // console.log(user);
     }
     buttons(e) {
-        var ide = e.parentNode.parentNode;
+        var _a;
+        var ide = (_a = e.parentNode) === null || _a === void 0 ? void 0 : _a.parentNode;
         var prevData = ide;
         let updatedArr = [];
         // console.log(ide);
         // console.log(ide.rowIndex+"qwertyui");
-        updatedArr.push(ide.rowIndex);
-        let len = ide.parentNode.parentNode.rows[0].cells.length;
+        updatedArr.push(ide === null || ide === void 0 ? void 0 : ide.rowIndex);
+        let len = ide === null || ide === void 0 ? void 0 : ide.parentNode.parentNode.rows[0].cells.length;
         // var a=document.getElementById("table")!.rows[ide.rowIndex].cells[0].innerText;
         // console.log(a);
-        let id = ide.getAttribute("id");
+        let id = ide.getAttribute('id');
         // console.log(id + "idddddddddddddddddddd");
-        ide.contentEditable = "true";
-        ide.id = `edit+${1}`;
-        console.log("edit");
-        document.getElementById("buttons").contentEditable = "false";
+        ide.contentEditable = 'true';
+        ide.id = `${1}`;
+        console.log('edit');
+        document.getElementById('buttons').contentEditable = 'false';
         //  var editElem = document.getElementById("edit");
-        var saveBtn = document.getElementById("saveid");
+        var saveBtn = document.getElementById('saveid');
         if (!saveBtn) {
             //#myElementID element DOES NOT exist
-            var savebutton = document.createElement("button");
-            savebutton.innerHTML = "Save";
-            savebutton.className = "save";
-            savebutton.id = "saveid";
-            document.getElementById("btn").appendChild(savebutton);
+            var savebutton = document.createElement('button');
+            savebutton.innerHTML = 'Save';
+            savebutton.className = 'save';
+            savebutton.id = 'saveid';
+            document.getElementById('btn').appendChild(savebutton);
             savebutton.onclick = function () {
                 saveEdits();
                 // console.log(updatedArr[0] + "refer id");
                 for (let i = 0; i < len - 1; i++) {
-                    var t = document.getElementById("table");
+                    var t = document.getElementById('table');
                     var a = t.rows[ide.rowIndex].cells[i].innerText;
                     // console.log(a);
                     updatedArr.push(a);
@@ -148,52 +150,54 @@ class User {
                     Doj: updatedArr[8],
                 };
                 fetch(`${env.API_URL}/${id}`, {
-                    method: "PUT",
+                    method: 'PUT',
                     body: JSON.stringify(data),
                     headers: {
-                        "Content-type": "application/json; charset=UTF-8",
+                        'Content-type': 'application/json; charset=UTF-8',
                     },
                 });
             };
         }
-        var cancelBtn = document.getElementById("cancelid");
+        var cancelBtn = document.getElementById('cancelid');
         if (!cancelBtn) {
             //#myElementID element DOES NOT exist
-            var cancelButton = document.createElement("button");
-            cancelButton.innerHTML = "Cancel";
-            cancelButton.className = "cancel";
-            cancelButton.id = "cancelid";
-            document.getElementById("btn").appendChild(cancelButton);
+            var cancelButton = document.createElement('button');
+            cancelButton.innerHTML = 'Cancel';
+            cancelButton.className = 'cancel';
+            cancelButton.id = 'cancelid';
+            document.getElementById('btn').appendChild(cancelButton);
             cancelButton.onclick = function () {
-                cancelTr(prevData, this, cancelButton, savebutton);
+                cancelTr(prevData, cancelButton, savebutton);
             };
         }
         function saveEdits() {
-            console.log("saveEdits");
+            console.log('saveEdits');
             //get the editable element
-            var editElem = document.getElementById("edit");
+            var editElem = document.getElementById('edit');
             //get the edited element content
             // var userVersion = editElem!.innerHTML;
             //save the content to local storage
             // localStorage.userEdits = userVersion;
             //write a confirmation to the user
             //   document.getElementById("update").innerHTML="Edits saved!";
-            document.getElementById("btn").removeChild(savebutton);
-            document.getElementById("btn").removeChild(cancelButton);
-            savebutton.addEventListener("click", saveEdits);
+            document.getElementById('btn').removeChild(savebutton);
+            document.getElementById('btn').removeChild(cancelButton);
+            savebutton.addEventListener('click', saveEdits);
         }
     }
     removeTr(e) {
+        var _a;
         let ide = e.parentNode.parentNode;
         // let id=ide.rowIndex;
-        let i = ide.getAttribute("id");
+        let i = (_a = document.getElementById('id')) === null || _a === void 0 ? void 0 : _a.innerHTML;
+        // let i = ide!.getAttribute("id") as HTMLElement;
         // console.log(ide.getAttribute('id'),'iddddddddddddddddddddddddddddddd');
         // console.log(ide.rowIndex);
         var p = ide.parentNode;
         p.removeChild(ide);
         fetch(`${env.API_URL}/${i}`, {
-            method: "DELETE",
-            headers: { "Content-type": "applicaton/json;charset=UTF-8" },
+            method: 'DELETE',
+            headers: { 'Content-type': 'applicaton/json;charset=UTF-8' },
         });
         // document.getElementById("btn").removeChild(savebutton);
     }
@@ -213,16 +217,16 @@ var Role;
 let UsersData = [];
 let columnData = [];
 function hideTable() {
-    document.getElementById("table").style.visibility = "hidden";
+    document.getElementById('table').style.visibility = 'hidden';
 }
 function load() {
     return __awaiter(this, void 0, void 0, function* () {
         let dataNew = yield api(env.API_URL);
         console.log(dataNew);
-        document.getElementById("load").innerText = "Refresh Data";
-        document.getElementById("table").style.visibility = "visible";
-        var placeholder = document.querySelector("#data-output");
-        let out = "";
+        document.getElementById('load').innerText = 'Refresh Data';
+        document.getElementById('table').style.visibility = 'visible';
+        var placeholder = document.querySelector('#data-output');
+        let out = '';
         let i = 1;
         let userItem;
         for (userItem of dataNew) {
@@ -244,22 +248,22 @@ function load() {
             i++;
         }
         placeholder.innerHTML = out;
-        console.log("loaded");
+        console.log('loaded');
     });
 }
 let user = new User(UsersData);
-(_a = document.getElementById("form")) === null || _a === void 0 ? void 0 : _a.addEventListener("submit", (e) => {
+(_a = document.getElementById('form')) === null || _a === void 0 ? void 0 : _a.addEventListener('submit', (e) => {
     e.preventDefault();
     if (e.target[5].value in Role) {
         user.addUser(e);
     }
     else {
         alert(e.target[5].value +
-            " role is not valid . Please choose from the given role : SuperAdmin , Admin , Subscriber");
+            ' role is not valid . Please choose from the given role : SuperAdmin , Admin , Subscriber');
         return;
     }
 });
-function cancelTr(p, e, btn, sbtn) {
+function cancelTr(p, btn, sbtn) {
     var index = p.rowIndex;
     console.log(UsersData[index]);
     // console.log(p.cells);
@@ -267,6 +271,6 @@ function cancelTr(p, e, btn, sbtn) {
     for (let i = 0; i < UsersData[index].length; i++) {
         p.cells[i].innerHTML = UsersData[index][i];
     }
-    document.getElementById("btn").removeChild(sbtn);
-    document.getElementById("btn").removeChild(btn);
+    document.getElementById('btn').removeChild(sbtn);
+    document.getElementById('btn').removeChild(btn);
 }
